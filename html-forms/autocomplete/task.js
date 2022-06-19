@@ -67,7 +67,21 @@ class Autocomplete {
     this.list.innerHTML = html.join('');
   }
 
-  getMatches( text ) {
+  getMatches(text) {
+    const option = document.querySelectorAll('option')
+    let getMassiv = []
+    for (let i = 0; i < option.length; i++) {
+      if (option[i].textContent.includes(text)) {
+        console.log('Уррараа');
+        getMassiv.push({
+          value: option[i].value,
+          text: option[i].textContent
+        })
+      }
+    }
+    return getMassiv;
+  }
+}
     /*
       TODO: этот метод нужно дописать
       text - фраза, которую вводят в поле поиска
@@ -81,13 +95,13 @@ class Autocomplete {
         value: 'Содержимое атрибута value'
       }
     */
-    return [
-      {
-        text: 'Чубакка',
-        value: '1'
-      }
-    ];
-  }
-}
+  //   return [
+  //     {
+  //       text: 'Чубакка',
+  //       value: '1'
+  //     }
+  //   ];
+  // }
+    
 
 new Autocomplete( document.querySelector( '.autocomplete' ));
