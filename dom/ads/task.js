@@ -1,36 +1,20 @@
-const texts = document.querySelectorAll('.rotator__case');
-const rotator = document.querySelector('.rotator');
-const allDataAttribute = Array.from(document.querySelectorAll('[data-speed]'));
-let timeout = 0;
-let count = allDataAttribute[0];
+const rotatorElems = document.querySelectorAll('.rotator')
 
-// allDataAttribute.forEach(el=>{
-//     timeout += Number(el.dataset.speed);
-//     el.style.color = el.dataset.color;
-//     if(count > allDataAttribute.length){
-//         count = allDataAttribute[0];
-//     }
-    
-//     setInterval(() =>{
-//         let activCase = rotator.querySelector('.rotator__case.rotator__case_active');
-//         activCase.classList.remove('rotator__case_active');
-//         el.classList.add('rotator__case_active');
-//     }, timeout);
-//     console.log(timeout)//в этом варианте всё считает корректно
-// });
+for (let i = 0; i < rotatorElems.length; i++) {
+	const rotator = rotatorElems[i];//в переменной каждый элемент коллекции
+    const rotatorCaseElems = rotator.querySelectorAll('.rotator__case')
+    console.log(rotator)
+    setActiveRotatorCase(rotator)
+}
+function setActiveRotatorCase(rotator){
+    const rotatorCaseActive = rotator.querySelector('.rotator__case.rotator__case_active')//активный элемент
+    const time = rotatorCaseActive.dataset.speed//время в атрибуте
+    rotatorCaseActive.style.color = rotatorCaseActive.dataset.color//меняем цвет активному элементу
+    const rotatorCaseNext = rotatorCaseActive.nextElementSibling !== null ? rotatorCaseActive.nextElementSibling : rotator.querySelector('.rotator__case')//следубщий элемент
 
-setInterval(() =>{
-    allDataAttribute.forEach(el=>{
-            timeout += Number(el.dataset.speed);
-            el.style.color = el.dataset.color;
-            // if(count > allDataAttribute.length){
-            //     count = allDataAttribute[0];
-            // }
-            console.log(timeout)// timeout выдаёт какую-то дичь
-            let activCase = rotator.querySelector('.rotator__case.rotator__case_active');
-            activCase.classList.remove('rotator__case_active');
-            el.classList.add('rotator__case_active');
-        }, timeout);
-    })
-
-    
+setTimeout(e=>{
+    rotatorCaseActive.classList.remove('rotator__case_active')//удаляем у активного элемента
+    rotatorCaseNext.classList.add('rotator__case_active')//добавляем следующему элементу
+    setActiveRotatorCase(rotator)
+}, time)
+}
