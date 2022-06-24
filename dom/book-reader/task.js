@@ -1,50 +1,26 @@
-const buttonElems = document.querySelectorAll('.font-size');
-const book = document.querySelector('.book');
-const bookControl = document.querySelector('.book__control');
-const bookControls = document.querySelector('.book__controls');
-const buttonColors = document.querySelectorAll('.color');
+const buttonElems = document.querySelectorAll('.font-size') // Находим все кнопки с классом font-size
+const bookControls = document.querySelector('.book__controls') // Находим контейнер с контроллерами
+const bookContent = document.querySelector('.book__content') // Находим контент страницы
 
-for (let i = 0; i < buttonElems.length; i++) {
-    const button = buttonElems[i];
-    const data = button.dataset.size;
+for (let i = 0; i < buttonElems.length; i++){
+	const button = buttonElems[i] // получаем каждый элемент по отдельности
 
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
+	button.addEventListener('click', e => {
+		const buttonActive = bookControls.querySelector('.font-size.font-size_active') // Находим активную кнопку
+		const data = button.dataset.size // Получаем значение data-size атрибута
+		e.preventDefault()
 
-        const buttonActivSize = bookControls.querySelector('.font-size.font-size_active');
-        buttonActivSize.classList.remove('.font-size_active');
+		buttonActive.classList.remove('font-size_active')
+		button.classList.add('font-size_active')
 
-        if (data === 'small') {
-            button.classList.add('font-size_active');
-            book.classList.add('book_fs-small');
-        }
-        else if (data === 'big') {
-            button.classList.add('font-size_active');
-            book.classList.add('book_fs-big');
-        }
-    })
-}
+		bookContent.classList.remove('book_fs-small')
+		bookContent.classList.remove('book_fs-big')
 
-for (let i = 0; i < buttonColors.length; i++) {
-    const buttonColor = buttonColors[i];
-    const dataText = buttonColor.dataset.textColor;
-
-    buttonColor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const buttonActivColorText = bookControls.querySelector('.color_active');
-        buttonActivColorText.classList.remove('.color_active');
-
-        if (dataText === 'black') {
-            buttonColor.classList.add('color_active');
-            book.classList.add('book_color-black');
-        }
-        else if (dataText === 'gray') {
-            buttonColor.classList.add('color_active');
-            book.classList.add('book_color-gray');
-        }
-        else if (dataText === 'whitesmoke') {
-            buttonColor.classList.add('color_active');
-            book.classList.add('book_color-whitesmoke');
-        }
-    })
+		if (data === 'small') {
+			bookContent.classList.add('book_fs-small')
+		}
+		else if (data === 'big') {
+			bookContent.classList.add('book_fs-big')
+		}
+	})
 }
