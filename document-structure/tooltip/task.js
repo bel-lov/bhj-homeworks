@@ -1,32 +1,43 @@
 const hasTooltip = document.querySelectorAll('.has-tooltip');
+document.addEventListener('click', e =>{
+    if (e.target.classList.contains('has-tooltip') || e.target.closest('.has-tooltip')) {
+        let target
+		if (e.target.classList.contains('has-tooltip')) {
+			target = e.target
+		}
+		else {
+			target = e.target.closest('.has-tooltip')
+		}
+        e.preventDefault()
+		tooltipShow(target)
+    }
+    else {
+		tooltipHide()
+	}
+})
 
-// for(let i =0; i <hasTooltip.length; i++ ){
-// hasTooltip[i].addEventListener('click', (event)=>{
-//     event.preventDefault()
-//     console.log(hasTooltip[i]);
-// })
-// }
+function tooltipShow(link){
+    if(!document.querySelector('.tooltip')){
+        createTooltip(link);
+    }
+    const tooltip = document.querySelector('.tooltip');
 
-function handleFormSubmit(e,i) {
-    let titleValue = hasTooltip[i].title;
-
-    a = document.querySelector('.has-tooltip.tooltip_active');
-        if (a){
-        a.classList.remove('.tooltip_active')
-        titleValue = null;
-        }
-    const html = `<div class="tooltip tooltip_active" style="bottom: 50%">${titleValue}
-</div>`;
-    let parentChat = document.querySelector('.has-tooltip');
-    let div = document.createElement('div');
-    div.innerHTML = html;
-    parentChat.append(div);
+	tooltip.innerHTML = link.getAttribute('title');
+	tooltip.classList.add('tooltip_active');
+    tooltip.style.left = link.getBoundingClientRect().left + ( link.offsetWidth / 2 ) - ( tooltip.offsetWidth / 2 ) + 'px';
+    tooltip.style.top = link.getBoundingClientRect().top + window.scrollY - tooltip.clientHeight - 4 + 'px';
 }
 
-for (let i = 0; i < hasTooltip.length; i++) {
-    hasTooltip[i].addEventListener('click', (e) => {
-        
-        e.preventDefault();
-        handleFormSubmit(e,i)
-    })
+function tooltipHide(){
+    const tooltip = document.querySelector('.tooltip');
+    if(tooltip){
+        tooltip.classList.remove('tooltip_active');
+    }
+}
+
+function createTooltip(){
+    const tooltip = document.createElement('div');
+    console.log(tooltip);
+    tooltip.classList.add('tooltip');
+    document.body.append(tooltip);
 }
