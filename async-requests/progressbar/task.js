@@ -6,10 +6,12 @@ form.addEventListener('submit', function (event) {
     const formData = new FormData(form);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://netology-slow-rest.herokuapp.com/upload.php');
+    
+    xhr.upload.onprogress = function (event) {
+        progress.value = event.loaded;
+        console.log(`Отправлено ${event.loaded} из ${event.total}`);
+    };
 
-    xhr.onprogress = function (event) {
-        progress.value = event.loaded / 50000000;
-        console.log(`Загружено ${event.loaded} из ${event.total}`);
-    }
     xhr.send(formData);
+    xhr.onload = () => alert(xhr.status);
 });
